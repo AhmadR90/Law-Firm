@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import LoginImage from "../assets/Login.jpg";
 
 const LoginForm = () => {
@@ -14,7 +16,9 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    toast.success("Login Successfully!", { position: "top-center" });
     console.log("Login Data:", formData);
+    setFormData("")
   };
 
   return (
