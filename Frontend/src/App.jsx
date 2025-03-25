@@ -3,7 +3,6 @@ import { Route, BrowserRouter as Router, Routes, } from 'react-router-dom'
 import './App.css'
 import RegistrationForm from './components/Registeration'
 import LoginForm from "./components/Login"
-
 function App() {
   const [count, setCount] = useState(0)
 

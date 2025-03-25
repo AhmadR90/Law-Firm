@@ -19,12 +19,12 @@ const RegistrationForm = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-900">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-900">
       {/* Left Side - Form */}
-      <div className="w-full md:w-1/2 flex justify-center items-center text-amber-50">
-        <div className="p-10 rounded-2xl shadow-lg w-[600px] bg-gray-950 border border-amber-500">
-          <h2 className="text-4xl font-bold text-center mb-6 text-amber-400">Register</h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="w-full md:w-1/2 flex justify-center items-center p-6">
+        <div className="p-8 w-full max-w-md bg-gray-950 border border-amber-500 rounded-2xl shadow-lg">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 text-amber-400">Register</h2>
+          <form onSubmit={handleSubmit} className="space-y-5">
             <input
               type="text"
               name="name"
@@ -74,11 +74,11 @@ const RegistrationForm = () => {
       </div>
       
       {/* Right Side - Image */}
-      <div className="w-1/2 hidden md:block">
+      <div className="hidden md:flex md:w-1/2 justify-center items-center p-6">
         <img 
           src={Login}
           alt="Registration" 
-          className="w-full h-full object-cover"
+          className="w-full h-auto md:h-full object-cover rounded-lg"
         />
       </div>
     </div>
