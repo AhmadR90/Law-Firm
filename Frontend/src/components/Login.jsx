@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 import LoginImage from "../assets/Login.jpg";
 
 const LoginForm = () => {
@@ -9,6 +10,7 @@ const LoginForm = () => {
     email: "",
     password: "",
   });
+  const navigate=useNavigate()
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,27 +24,24 @@ const LoginForm = () => {
       return;
     }
 
-    toast.success("Login Successfully!", {
-      position: "top-center",
-      autoClose: 2000,
-    });
+    toast.success("Login Successfully!", { position: "top-center", autoClose: 2000 });
 
     console.log("Login Data:", formData);
 
     setFormData({
       email: "",
       password: "",
+     
     });
+    navigate("/client")
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-900">
+    <div className="flex min-h-screen bg-gray-900">
       {/* Left Side - Form */}
       <div className="w-full md:w-1/2 flex justify-center items-center p-6">
         <div className="p-8 w-full max-w-md bg-gray-950 border border-amber-500 rounded-2xl shadow-lg">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 text-amber-400">
-            Login
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 text-amber-400">Login</h2>
           <form onSubmit={handleSubmit} className="space-y-5">
             <input
               type="email"
@@ -70,20 +69,17 @@ const LoginForm = () => {
             </button>
           </form>
           <p className="text-center mt-4 text-gray-400">
-            Don't have an account?
-            <Link to="/register" className="text-amber-500 hover:underline">
-              {" "}
-              Register here
-            </Link>
+            Don't have an account? 
+            <Link to="/register" className="text-amber-500 hover:underline"> Register here</Link>
           </p>
         </div>
       </div>
-
+      
       {/* Right Side - Image */}
       <div className="hidden md:flex md:w-1/2 justify-center items-center p-6">
-        <img
+        <img 
           src={LoginImage}
-          alt="Login"
+          alt="Login" 
           className="w-full h-auto md:h-full object-cover rounded-lg"
         />
       </div>

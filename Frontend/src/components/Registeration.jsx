@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import Login from "../assets/Login.jpg";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import LoginImage from "../assets/Login.jpg";
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -15,11 +18,26 @@ const RegistrationForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!formData.name || !formData.email || !formData.password) {
+      toast.error("Please fill in all fields!", { position: "top-center" });
+      return;
+    }
+
+    toast.success("Registration Successful!", { position: "top-center", autoClose: 2000 });
+
     console.log("Registration Data:", formData);
+
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+      role: "client",
+    });
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-900">
+    <div className="flex min-h-screen bg-gray-900">
       {/* Left Side - Form */}
       <div className="w-full md:w-1/2 flex justify-center items-center p-6">
         <div className="p-8 w-full max-w-md bg-gray-950 border border-amber-500 rounded-2xl shadow-lg">
@@ -70,14 +88,18 @@ const RegistrationForm = () => {
               Register
             </button>
           </form>
+          <p className="text-center mt-4 text-gray-400">
+            Already have an account? 
+            <Link to="/login" className="text-amber-500 hover:underline"> Login here</Link>
+          </p>
         </div>
       </div>
       
       {/* Right Side - Image */}
       <div className="hidden md:flex md:w-1/2 justify-center items-center p-6">
         <img 
-          src={Login}
-          alt="Registration" 
+          src={LoginImage}
+          alt="Register" 
           className="w-full h-auto md:h-full object-cover rounded-lg"
         />
       </div>
