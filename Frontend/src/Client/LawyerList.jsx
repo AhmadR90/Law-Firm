@@ -53,7 +53,7 @@ const Lawyers = () => {
             <img
               src={lawyer.image}
               alt={lawyer.title}
-              className="w-full h-40 object-cover"
+              className="w-full h-40 object-fit"
             />
             <div className="p-4">
               <h3 className="text-xl font-semibold text-amber-400">

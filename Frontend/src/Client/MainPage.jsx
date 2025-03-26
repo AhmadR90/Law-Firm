@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { FaUser, FaFileAlt, FaCalendarAlt, FaClipboardList, FaComments, FaBars } from "react-icons/fa";
 import ProfileManagement from "./ProfileManagement";
 import LawyersList from "./LawyerList";
+import DocumentUpload from "./DocumentUpload";
+import Appointments from "./Appointments";
+import CaseRecords from "./Records";
 
 const Sidebar = ({ onSelect, isOpen, toggleSidebar }) => {
   const menuItems = [
@@ -13,7 +16,7 @@ const Sidebar = ({ onSelect, isOpen, toggleSidebar }) => {
     { name: "Messages", icon: <FaComments />, key: "messages" },
   ];
 
-  const [active, setActive] = useState("profile");
+  const [active, setActive] = useState("lawyers");
 
   const handleSelect = (key) => {
     setActive(key);
@@ -51,7 +54,7 @@ const Sidebar = ({ onSelect, isOpen, toggleSidebar }) => {
 };
 
 const Dashboard = () => {
-  const [selectedComponent, setSelectedComponent] = useState("profile");
+  const [selectedComponent, setSelectedComponent] = useState("lawyers");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -64,6 +67,12 @@ const Dashboard = () => {
         return <ProfileManagement />;
       case "lawyers":
         return <LawyersList />;
+      case"documents":
+          return <DocumentUpload/>;
+          case"appointments":
+          return <Appointments/>;
+          case"records":
+          return <CaseRecords/>
       default:
         return <div className="p-6 text-white">{selectedComponent} Content</div>;
     }
