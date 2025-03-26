@@ -1,23 +1,28 @@
 import React, { useState } from "react";
-import { FaUser, FaFileAlt, FaCalendarAlt, FaClipboardList, FaComments, FaBars } from "react-icons/fa";
-import ProfileManagement from "./ProfileManagement";
-import LawyersList from "./LawyerList";
-import DocumentUpload from "./DocumentUpload";
-import Appointments from "./Appointments";
-import CaseRecords from "./Records";
+import {
+  FaUser,
+  FaFileAlt,
+  FaClipboardList,
+  FaComments,
+  FaBars,
+} from "react-icons/fa";
+import ProfileManagement from "../Client/ProfileManagement";
+import DocumentUpload from "../Client/DocumentUpload";
+import CaseDashboard from "./Results";
+import ClientRequests from "./ClientRequests";
 
 const Sidebar = ({ onSelect, isOpen, toggleSidebar }) => {
   const menuItems = [
     
-    { name: "Lawyers", icon: <FaClipboardList />, key: "lawyers" },
+    { name: "Clients", icon: <FaClipboardList />, key: "clients" },
     { name: "Documents", icon: <FaFileAlt />, key: "documents" },
-    { name: "Appointments", icon: <FaCalendarAlt />, key: "appointments" },
-    { name: "Display Records", icon: <FaClipboardList />, key: "records" },
-    { name: " Edit Profile", icon: <FaUser />, key: "profile" },
+
+    { name: "Case Results", icon: <FaClipboardList />, key: "results" },
+    { name: "Profile Management", icon: <FaUser />, key: "profile" },
     { name: "Messages", icon: <FaComments />, key: "messages" },
   ];
 
-  const [active, setActive] = useState("lawyers");
+  const [active, setActive] = useState("clients");
 
   const handleSelect = (key) => {
     setActive(key);
@@ -35,13 +40,17 @@ const Sidebar = ({ onSelect, isOpen, toggleSidebar }) => {
         isOpen ? "translate-x-0" : "-translate-x-full"
       } transition-transform duration-300 ease-in-out md:relative md:translate-x-0 min-h-screen z-50`}
     >
-      <h2 className="text-2xl font-bold text-amber-400 text-center mb-6"> User Dashboard</h2>
+      <h2 className="text-2xl font-bold text-amber-400 text-center mb-6">
+       Lawyer Dashboard
+      </h2>
       <ul className="space-y-4">
         {menuItems.map((item) => (
           <li
             key={item.key}
             className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition duration-300 text-white ${
-              active === item.key ? "bg-amber-500 text-gray-900" : "hover:bg-gray-800"
+              active === item.key
+                ? "bg-amber-500 text-gray-900"
+                : "hover:bg-gray-800"
             }`}
             onClick={() => handleSelect(item.key)}
           >
@@ -54,8 +63,8 @@ const Sidebar = ({ onSelect, isOpen, toggleSidebar }) => {
   );
 };
 
-const UserDashboard = () => {
-  const [selectedComponent, setSelectedComponent] = useState("lawyers");
+const LawyerDashboard = () => {
+  const [selectedComponent, setSelectedComponent] = useState("clients");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -66,28 +75,35 @@ const UserDashboard = () => {
     switch (selectedComponent) {
       case "profile":
         return <ProfileManagement />;
-      case "lawyers":
-        return <LawyersList />;
-      case"documents":
-          return <DocumentUpload/>;
-          case"appointments":
-          return <Appointments/>;
-          case"records":
-          return <CaseRecords/>
+      case "results":
+        return <CaseDashboard/>
+      case "documents":
+        return <DocumentUpload />;
+        case "clients":
+            return <ClientRequests/>
       default:
-        return <div className="p-6 text-white">{selectedComponent} Content</div>;
+        return (
+          <div className="p-6 text-white">{selectedComponent} Content</div>
+        );
     }
   };
 
   return (
     <div className="flex min-h-screen bg-gray-700 relative">
-      <button className="md:hidden absolute top-4 left-4 p-4 text-white z-50" onClick={toggleSidebar}>
+      <button
+        className="md:hidden absolute top-4 left-4 p-4 text-white z-50"
+        onClick={toggleSidebar}
+      >
         <FaBars size={24} />
       </button>
-      <Sidebar onSelect={setSelectedComponent} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar
+        onSelect={setSelectedComponent}
+        isOpen={isSidebarOpen}
+        toggleSidebar={toggleSidebar}
+      />
       <div className="flex-1 p-6">{renderComponent()}</div>
     </div>
   );
 };
 
-export default UserDashboard;
+export default LawyerDashboard;
