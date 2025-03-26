@@ -1,24 +1,18 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
 import LoginImage from "../assets/Login.jpg";
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const navigate=useNavigate()
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const handleLogin = (userType) => {
     if (!formData.email || !formData.password) {
       toast.error("Please fill in all fields!", { position: "top-center" });
       return;
@@ -26,14 +20,12 @@ const LoginForm = () => {
 
     toast.success("Login Successfully!", { position: "top-center", autoClose: 2000 });
 
-    console.log("Login Data:", formData);
+    setFormData({ email: "", password: "" });
 
-    setFormData({
-      email: "",
-      password: "",
-     
-    });
-    navigate("/lawyer-dashboard")
+    // Navigate to respective dashboard
+    if (userType === "client") navigate("/client");
+    if (userType === "lawyer") navigate("/lawyer-dashboard");
+    if (userType === "admin") navigate("/admin-dashboard");
   };
 
   return (
@@ -42,7 +34,7 @@ const LoginForm = () => {
       <div className="w-full md:w-1/2 flex justify-center items-center p-6">
         <div className="p-8 w-full max-w-md bg-gray-950 border border-amber-500 rounded-2xl shadow-lg">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 text-amber-400">Login</h2>
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="space-y-5">
             <input
               type="email"
               name="email"
@@ -62,26 +54,34 @@ const LoginForm = () => {
               required
             />
             <button
-              type="submit"
+              onClick={() => handleLogin("client")}
               className="w-full bg-amber-500 text-gray-900 p-3 rounded-lg hover:bg-amber-600 transition font-bold"
             >
-              Login
+              Client Login
             </button>
-          </form>
+            <button
+              onClick={() => handleLogin("lawyer")}
+              className="w-full bg-amber-500 text-gray-900 p-3 rounded-lg hover:bg-amber-600 transition font-bold"
+            >
+              Lawyer Login
+            </button>
+            <button
+              onClick={() => handleLogin("admin")}
+              className="w-full bg-amber-500 text-gray-900 p-3 rounded-lg hover:bg-amber-600 transition font-bold"
+            >
+              Admin Login
+            </button>
+          </div>
           <p className="text-center mt-4 text-gray-400">
-            Don't have an account? 
+            Don't have an account?
             <Link to="/register" className="text-amber-500 hover:underline"> Register here</Link>
           </p>
         </div>
       </div>
-      
+
       {/* Right Side - Image */}
       <div className="hidden md:flex md:w-1/2 justify-center items-center p-6">
-        <img 
-          src={LoginImage}
-          alt="Login" 
-          className="w-full h-auto md:h-full object-fit rounded-lg"
-        />
+        <img src={LoginImage} alt="Login" className="w-full h-auto md:h-full object-fit rounded-lg" />
       </div>
     </div>
   );

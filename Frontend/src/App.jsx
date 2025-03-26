@@ -7,6 +7,7 @@ import UserDashboard from './Client/MainPage'
 import SupremeCourtLawyers from './components/SupremeCourtLawyers'
 import HighCourtLawyers from "./components/HighCourtLawyers"
 import LawyerDashboard from './Lawyer/LawyerDashboard'
+import AdminDashboard from './Admin/AdminDashboard'
 function App() {
   const [count, setCount] = useState(0)
 
@@ -25,7 +26,11 @@ function App() {
          <Routes>
           <Route path='/lawyer-dashboard' element={<LawyerDashboard/>}></Route>
          </Routes>
+      
 
+      <Routes>
+        <Route path='Admin-dashboard' element={<AdminDashboard/>}></Route>
+      </Routes>
 
 
       </Router>

@@ -45,7 +45,7 @@ const ProfileManagement = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 bg-gray-800 focus:ring-blue-500"
                 placeholder="Enter your full name"
               />
               {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
@@ -57,7 +57,7 @@ const ProfileManagement = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3  bg-gray-800 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your email"
               />
               {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
@@ -69,7 +69,7 @@ const ProfileManagement = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 border  bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your phone number"
               />
               {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
@@ -81,7 +81,7 @@ const ProfileManagement = () => {
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 border rounded-lg bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your address"
               />
               {errors.address && <p className="text-red-500 text-sm">{errors.address}</p>}
