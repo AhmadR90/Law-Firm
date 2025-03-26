@@ -37,7 +37,7 @@ const RegistrationForm = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-900">
+    <div className="flex min-h-screen bg-gray-700">
       {/* Left Side - Form */}
       <div className="w-full md:w-1/2 flex justify-center items-center p-6">
         <div className="p-8 w-full max-w-md bg-gray-950 border border-amber-500 rounded-2xl shadow-lg">
@@ -100,7 +100,7 @@ const RegistrationForm = () => {
         <img 
           src={LoginImage}
           alt="Register" 
-          className="w-full h-auto md:h-full object-cover rounded-lg"
+          className="w-full h-auto md:h-full object-fit rounded-lg"
         />
       </div>
     </div>
