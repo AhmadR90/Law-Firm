@@ -33,7 +33,7 @@ const LoginForm = () => {
       password: "",
      
     });
-    navigate("/client")
+    navigate("/lawyer-dashboard")
   };
 
   return (
