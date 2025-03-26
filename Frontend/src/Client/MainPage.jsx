@@ -30,7 +30,7 @@ const Sidebar = ({ onSelect, isOpen, toggleSidebar }) => {
 
   return (
     <div
-      className={`fixed inset-y-0 left-0 w-64 bg-gray-950 border-r border-amber-500 p-4 transform ${
+      className={`fixed inset-y-0 left-0 w-64 bg-gray-600 border-r border-amber-500 p-4 transform ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       } transition-transform duration-300 ease-in-out md:relative md:translate-x-0 min-h-screen z-50`}
     >
@@ -79,7 +79,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-900 relative">
+    <div className="flex min-h-screen bg-gray-700 relative">
       <button className="md:hidden absolute top-4 left-4 p-4 text-white z-50" onClick={toggleSidebar}>
         <FaBars size={24} />
       </button>

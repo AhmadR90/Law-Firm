@@ -37,7 +37,7 @@ const DocumentUpload = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full min-h-screen bg-gray-900 p-6">
+    <div className="flex flex-col items-center justify-center w-full min-h-screen bg-gray-700 p-6">
       <div className="w-full max-w-3xl bg-gray-950 border border-amber-500 shadow-lg rounded-lg p-6">
         <h2 className="text-2xl font-bold text-amber-400 text-center mb-4">Upload Documents</h2>
         <p className="text-gray-400 text-center mb-6">Upload your legal documents securely.</p>

@@ -8,7 +8,7 @@ const CaseRecords = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center w-full min-h-screen bg-gray-900 p-6">
+    <div className="flex flex-col items-center w-full min-h-screen bg-gray-700 p-6">
       <div className="w-full max-w-5xl bg-gray-950 border border-amber-500 shadow-lg rounded-lg p-6 overflow-hidden">
         <h2 className="text-2xl font-bold text-amber-400 text-center mb-4">Case Records</h2>
         <div className="w-full overflow-x-auto">
