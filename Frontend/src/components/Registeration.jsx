@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios"
 import LoginImage from "../assets/Login.jpg";
 
 const RegistrationForm = () => {
@@ -16,25 +17,36 @@ const RegistrationForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!formData.name || !formData.email || !formData.password) {
       toast.error("Please fill in all fields!", { position: "top-center" });
       return;
     }
-
-    toast.success("Registration Successful!", { position: "top-center", autoClose: 2000 });
-
-    console.log("Registration Data:", formData);
-
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-      role: "client",
-    });
+  
+    try {
+      const response = await fetch("http://localhost:5000/api/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.message || "Registration failed");
+      }
+  
+      toast.success("Registration Successful!", { position: "top-center", autoClose: 2000 });
+      setFormData({ name: "", email: "", password: "", role: "client" });
+  
+    } catch (error) {
+      toast.error(error.message, { position: "top-center" });
+    }
   };
+  
+  
 
   return (
     <div className="flex min-h-screen bg-gray-700">
@@ -79,7 +91,6 @@ const RegistrationForm = () => {
             >
               <option value="client">Client</option>
               <option value="lawyer">Lawyer</option>
-              <option value="admin">Admin</option>
             </select>
             <button
               type="submit"
@@ -90,7 +101,7 @@ const RegistrationForm = () => {
           </form>
           <p className="text-center mt-4 text-gray-400">
             Already have an account? 
-            <Link to="/login" className="text-amber-500 hover:underline"> Login here</Link>
+            <Link to="/" className="text-amber-500 hover:underline"> Login here</Link>
           </p>
         </div>
       </div>

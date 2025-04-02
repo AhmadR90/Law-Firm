@@ -12,28 +12,49 @@ const LoginForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = (userType) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
     if (!formData.email || !formData.password) {
       toast.error("Please fill in all fields!", { position: "top-center" });
       return;
     }
-
-    toast.success("Login Successfully!", { position: "top-center", autoClose: 2000 });
-
-    setFormData({ email: "", password: "" });
-
-    // Navigate to respective dashboard
-    if (userType === "client") navigate("/client");
-    if (userType === "lawyer") navigate("/lawyer-dashboard");
-    if (userType === "admin") navigate("/admin-dashboard");
+  
+    try {
+      const response = await fetch("http://localhost:5000/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed");
+      }
+  
+      // Store token and user data
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+  
+      toast.success("Login Successful!", { position: "top-center", autoClose: 2000 });
+  
+      // Redirect user (Modify as needed)
+      window.location.href = "/client";
+    } catch (error) {
+      toast.error(error.message, { position: "top-center" });
+    }
   };
+  
 
   return (
     <div className="flex min-h-screen bg-gray-700">
       {/* Left Side - Form */}
       <div className="w-full md:w-1/2 flex justify-center items-center p-6">
         <div className="p-8 w-full max-w-md bg-gray-950 border border-amber-500 rounded-2xl shadow-lg">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 text-amber-400">Login</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 text-amber-400">
+            Login
+          </h2>
           <div className="space-y-5">
             <input
               type="email"
@@ -54,34 +75,29 @@ const LoginForm = () => {
               required
             />
             <button
-              onClick={() => handleLogin("client")}
+              onClick={ handleSubmit}
               className="w-full bg-amber-500 text-gray-900 p-3 rounded-lg hover:bg-amber-600 transition font-bold"
             >
-              Client Login
-            </button>
-            <button
-              onClick={() => handleLogin("lawyer")}
-              className="w-full bg-amber-500 text-gray-900 p-3 rounded-lg hover:bg-amber-600 transition font-bold"
-            >
-              Lawyer Login
-            </button>
-            <button
-              onClick={() => handleLogin("admin")}
-              className="w-full bg-amber-500 text-gray-900 p-3 rounded-lg hover:bg-amber-600 transition font-bold"
-            >
-              Admin Login
+              Login
             </button>
           </div>
           <p className="text-center mt-4 text-gray-400">
             Don't have an account?
-            <Link to="/register" className="text-amber-500 hover:underline"> Register here</Link>
+            <Link to="/register" className="text-amber-500 hover:underline">
+              {" "}
+              Register here
+            </Link>
           </p>
         </div>
       </div>
 
       {/* Right Side - Image */}
       <div className="hidden md:flex md:w-1/2 justify-center items-center p-6">
-        <img src={LoginImage} alt="Login" className="w-full h-auto md:h-full object-fit rounded-lg" />
+        <img
+          src={LoginImage}
+          alt="Login"
+          className="w-full h-auto md:h-full object-fit rounded-lg"
+        />
       </div>
     </div>
   );
