@@ -8,6 +8,7 @@ import SupremeCourtLawyers from './components/SupremeCourtLawyers'
 import HighCourtLawyers from "./components/HighCourtLawyers"
 import LawyerDashboard from './Lawyer/LawyerDashboard'
 import AdminDashboard from './Admin/AdminDashboard'
+import { ToastContainer } from 'react-toastify'
 function App() {
   const [count, setCount] = useState(0)
 
@@ -34,6 +35,7 @@ function App() {
 
 
       </Router>
+      <ToastContainer/>
     </>
   )
 }

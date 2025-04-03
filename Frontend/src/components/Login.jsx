@@ -2,21 +2,27 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons
 import LoginImage from "../assets/Login.jpg";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
   
     if (!formData.email || !formData.password) {
-      toast.error("Please fill in all fields!", { position: "top-center" });
+      toast.error("Please fill in all fields!", { position: "top-right" });
       return;
     }
   
@@ -37,15 +43,18 @@ const LoginForm = () => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
   
-      toast.success("Login Successful!", { position: "top-center", autoClose: 2000 });
+      toast.success("Login Successful!", { position: "top-right", autoClose: 2000 });
   
-      // Redirect user (Modify as needed)
-      window.location.href = "/client";
+      // Redirect user based on role
+      if (data.user.role === "client") {
+        navigate("/client");
+      } else if (data.user.role === "lawyer") {
+        navigate("/lawyer-dashboard");
+      }
     } catch (error) {
-      toast.error(error.message, { position: "top-center" });
+      toast.error(error.message, { position: "top-right" });
     }
   };
-  
 
   return (
     <div className="flex min-h-screen bg-gray-700">
@@ -55,7 +64,7 @@ const LoginForm = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 text-amber-400">
             Login
           </h2>
-          <div className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <input
               type="email"
               name="email"
@@ -63,24 +72,36 @@ const LoginForm = () => {
               value={formData.email}
               onChange={handleChange}
               className="w-full p-3 border border-amber-400 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
-              required
+              
             />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full p-3 border border-amber-400 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
-              required
-            />
+            
+            {/* Password Field with Eye Icon */}
+            <div className="relative w-full">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full p-3 border border-amber-400 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-amber-500 pr-10"
+                
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute right-3 top-3 text-gray-400 hover:text-white"
+              >
+                {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+              </button>
+            </div>
+
             <button
-              onClick={ handleSubmit}
+              type="submit"
               className="w-full bg-amber-500 text-gray-900 p-3 rounded-lg hover:bg-amber-600 transition font-bold"
             >
               Login
             </button>
-          </div>
+          </form>
           <p className="text-center mt-4 text-gray-400">
             Don't have an account?
             <Link to="/register" className="text-amber-500 hover:underline">

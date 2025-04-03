@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios"
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons
 import LoginImage from "../assets/Login.jpg";
+import axios from "axios";
+
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -12,41 +14,34 @@ const RegistrationForm = () => {
     password: "",
     role: "client",
   });
-
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
+   const navigate=useNavigate()
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    
     if (!formData.name || !formData.email || !formData.password) {
-      toast.error("Please fill in all fields!", { position: "top-center" });
+      toast.error("Please fill in all fields!", { position: "top-right" });
       return;
     }
-  
+
     try {
-      const response = await fetch("http://localhost:5000/api/users/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-  
-      const data = await response.json();
-  
-      if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
-      }
-  
-      toast.success("Registration Successful!", { position: "top-center", autoClose: 2000 });
+      const response = await axios.post("http://localhost:5000/api/users/register", formData);
+      toast.success("Registration Successful!", { position: "top-right", autoClose: 2000 });
       setFormData({ name: "", email: "", password: "", role: "client" });
-  
+      navigate("/")
     } catch (error) {
-      toast.error(error.message, { position: "top-center" });
+      toast.error(error.response?.data?.message || "Registration failed", { position: "top-right" });
     }
+    
   };
-  
-  
 
   return (
     <div className="flex min-h-screen bg-gray-700">
@@ -62,7 +57,7 @@ const RegistrationForm = () => {
               value={formData.name}
               onChange={handleChange}
               className="w-full p-3 border border-amber-400 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
-              required
+            
             />
             <input
               type="email"
@@ -71,23 +66,35 @@ const RegistrationForm = () => {
               value={formData.email}
               onChange={handleChange}
               className="w-full p-3 border border-amber-400 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
-              required
+              
             />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full p-3 border border-amber-400 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
-              required
-            />
+            
+            {/* Password Field with Eye Icon */}
+            <div className="relative w-full">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full p-3 border border-amber-400 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-amber-500 pr-10"
+                
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute right-3 top-3 text-gray-400 hover:text-white"
+              >
+                {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+              </button>
+            </div>
+            
             <select
               name="role"
               value={formData.role}
               onChange={handleChange}
               className="w-full p-3 border border-amber-400 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
-              required
+            
             >
               <option value="client">Client</option>
               <option value="lawyer">Lawyer</option>
