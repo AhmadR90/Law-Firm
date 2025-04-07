@@ -6,6 +6,8 @@ const ProfileManagement = () => {
     email: "",
     phone: "",
     address: "",
+    experience: "",
+    category: "",
   });
   const [errors, setErrors] = useState({});
 
@@ -19,6 +21,8 @@ const ProfileManagement = () => {
     if (!formData.email.trim()) newErrors.email = "Email is required";
     if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
     if (!formData.address.trim()) newErrors.address = "Address is required";
+    if (!formData.experience.trim()) newErrors.experience = "Experience is required";
+    if (!formData.category.trim()) newErrors.category = "Category is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -27,19 +31,18 @@ const ProfileManagement = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      setFormData({ name: "", email: "", phone: "", address: "" }); // Clear form
+      setFormData({ name: "", email: "", phone: "", address: "", experience: "", category: "" }); // Clear form
     }
   };
 
   return (
     <div className="flex h-screen bg-gray-700">
-    
-          <div className="flex-1 p-8">
+      <div className="flex-1 p-8">
         <h2 className="text-3xl font-bold text-white mb-6">Profile Data</h2>
         <div className="bg-gray-900 text-white p-6 rounded-lg shadow-md">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block  font-medium">Full Name</label>
+              <label className="block font-medium">Full Name</label>
               <input
                 type="text"
                 name="name"
@@ -51,31 +54,31 @@ const ProfileManagement = () => {
               {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
             </div>
             <div>
-              <label className="block  font-medium">Email</label>
+              <label className="block font-medium">Email</label>
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full p-3  bg-gray-800 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 bg-gray-800 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your email"
               />
               {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
             </div>
             <div>
-              <label className="block  font-medium">Phone Number</label>
+              <label className="block font-medium">Phone Number</label>
               <input
                 type="text"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full p-3 border  bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 border bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your phone number"
               />
               {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
             </div>
             <div>
-              <label className="block  font-medium">Address</label>
+              <label className="block font-medium">Address</label>
               <input
                 type="text"
                 name="address"
@@ -85,6 +88,30 @@ const ProfileManagement = () => {
                 placeholder="Enter your address"
               />
               {errors.address && <p className="text-red-500 text-sm">{errors.address}</p>}
+            </div>
+            <div>
+              <label className="block font-medium">Experience</label>
+              <input
+                type="text"
+                name="experience"
+                value={formData.experience}
+                onChange={handleChange}
+                className="w-full p-3 border rounded-lg bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter your experience"
+              />
+              {errors.experience && <p className="text-red-500 text-sm">{errors.experience}</p>}
+            </div>
+            <div>
+              <label className="block font-medium">Category</label>
+              <input
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                className="w-full p-3 border rounded-lg bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter your category"
+              />
+              {errors.category && <p className="text-red-500 text-sm">{errors.category}</p>}
             </div>
             <button
               type="submit"
