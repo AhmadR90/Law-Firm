@@ -15,22 +15,40 @@ const DocumentUpload = () => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    console.log("Stored User:", storedUser); // Check stored user data
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUserId(parsedUser.id);
     }
   }, []);
 
-  // Hide toast after 3 seconds
+  // Fetch user's uploaded documents when userId is set
   useEffect(() => {
-    if (toast.show) {
-      const timer = setTimeout(() => {
-        setToast({ ...toast, show: false });
-      }, 3000);
-      return () => clearTimeout(timer);
+    if (userId) {
+      fetchUserDocuments(userId);
     }
-  }, [toast]);
+  }, [userId]);
+
+  const fetchUserDocuments = async (userId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/documents/${userId}`
+      );
+      const data = await response.json();
+      // console.log(data)
+      if (response.ok) {
+        // Make sure we're setting an array, even if data.documents is undefined
+        setUploadedDocs(data|| []);
+        // console.log(uploadedDocs)
+      } else {
+        showToast(data.message || "Failed to fetch documents", "error");
+      }
+    } catch (error) {
+      console.error("Error fetching documents:", error.message);
+      showToast("Error fetching documents. Please try again.", "error");
+      // Ensure uploadedDocs is always an array
+      setUploadedDocs([]);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -92,14 +110,14 @@ const DocumentUpload = () => {
     <div className="flex flex-col items-center justify-center w-full min-h-screen bg-gray-700 p-6">
       {/* Toast Notification */}
       {toast.show && (
-        <div 
+        <div
           className={`fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 flex items-center ${
             toast.type === "success" ? "bg-green-500" : "bg-red-500"
           } text-white`}
         >
           <span>{toast.message}</span>
-          <button 
-            onClick={() => setToast({ ...toast, show: false })} 
+          <button
+            onClick={() => setToast({ ...toast, show: false })}
             className="ml-4 text-white hover:text-gray-200"
           >
             ✕
@@ -166,9 +184,25 @@ const DocumentUpload = () => {
           >
             {isLoading ? (
               <>
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-900"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
                 Uploading...
               </>
@@ -182,9 +216,9 @@ const DocumentUpload = () => {
       {/* Recently Uploaded Documents Section */}
       <div className="w-full max-w-3xl bg-gray-950 border border-amber-500 shadow-lg rounded-lg p-6 mt-6">
         <h3 className="text-xl font-semibold text-amber-400">
-          Recently Uploaded Documents
+          Your Uploaded Documents
         </h3>
-        {uploadedDocs.length === 0 ? (
+        {!uploadedDocs || uploadedDocs.length === 0 ? (
           <p className="text-gray-400">No documents uploaded yet.</p>
         ) : (
           <ul className="mt-2 space-y-2">

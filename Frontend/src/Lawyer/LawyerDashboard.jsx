@@ -6,10 +6,11 @@ import {
   FaComments,
   FaBars,
 } from "react-icons/fa";
-import ProfileManagement from "../Client/ProfileManagement";
+
 import DocumentUpload from "../Client/DocumentUpload";
 import CaseDashboard from "./Results";
 import ClientRequests from "./ClientRequests";
+import LawyerProfileManagement from "./Profile";
 
 const Sidebar = ({ onSelect, isOpen, toggleSidebar }) => {
   const menuItems = [
@@ -74,7 +75,7 @@ const LawyerDashboard = () => {
   const renderComponent = () => {
     switch (selectedComponent) {
       case "profile":
-        return <ProfileManagement />;
+        return <LawyerProfileManagement />;
       case "results":
         return <CaseDashboard/>
       case "documents":

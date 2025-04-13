@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { FaUser, FaFileAlt, FaCalendarAlt, FaClipboardList, FaComments, FaBars } from "react-icons/fa";
 import ProfileManagement from "./ProfileManagement";
 import LawyersList from "./LawyerList";
@@ -16,9 +16,16 @@ const Sidebar = ({ onSelect, isOpen, toggleSidebar }) => {
     { name: " Edit Profile", icon: <FaUser />, key: "profile" },
     { name: "Messages", icon: <FaComments />, key: "messages" },
   ];
-
+  
   const [active, setActive] = useState("lawyers");
-
+   const [username, setusername] = useState("")
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setusername(parsedUser.name);
+    }
+  }, []);
   const handleSelect = (key) => {
     setActive(key);
     onSelect(key);
@@ -35,7 +42,7 @@ const Sidebar = ({ onSelect, isOpen, toggleSidebar }) => {
         isOpen ? "translate-x-0" : "-translate-x-full"
       } transition-transform duration-300 ease-in-out md:relative md:translate-x-0 min-h-screen z-50`}
     >
-      <h2 className="text-2xl font-bold text-amber-400 text-center mb-6"> User Dashboard</h2>
+      <h2 className="text-2xl font-bold text-amber-400 text-center mb-6"> Welcome {username}</h2>
       <ul className="space-y-4">
         {menuItems.map((item) => (
           <li
